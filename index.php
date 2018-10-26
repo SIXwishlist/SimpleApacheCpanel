@@ -2,6 +2,7 @@
 <html>
 
 <head>
+	<?php require_once('check-login.php'); ?>
 	<title>Simple Apache CPanel</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -41,8 +42,10 @@
 </div>
 
 <div style="position:absolute;top:11px;right:5%;">
-	<button onClick="showAddDomainModal();" class="w3-button w3-large w3-circle w3-xlarge w3-ripple w3-white w3-card-4" style="z-index:0">+</button>
+	<button onClick="showAddDomainModal();" class="w3-button w3-large w3-circle w3-xlarge w3-ripple w3-white w3-card-4" style="z-index:0"><i class="fa fa-plus"></i></button> 
+	<button onClick="logout();" class="w3-button w3-large w3-circle w3-xlarge w3-ripple w3-white w3-card-4" style="z-index:0"><i class="fa fa-sign-out"></i></button>
 </div>
+
 
 <div class="w3-row">
 	<div class="w3-col m1">&nbsp;</div>
@@ -171,6 +174,10 @@
 		$('#db-user').html(db_name+"_user");
 		$('#db-password').html(db_password);
 		document.getElementById('db-info').style.display='block';
+	}
+
+	function logout() {
+		window.location = "logout.php";
 	}
 </script>
 
