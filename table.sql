@@ -6,6 +6,8 @@ CREATE TABLE domains (
 	server_alias varchar(255),
 	wordpress varchar(8) NOT NULL,
 	done varchar(8) NOT NULL,
+	db_password varchar(32),
+	writable varchar(8) NOT NULL,
 	PRIMARY KEY (ID)
 );
 

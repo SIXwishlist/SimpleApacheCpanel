@@ -16,8 +16,8 @@
 	<h1>Websites of <?php echo $_SERVER['REMOTE_ADDR']; ?></h1>
 </div>
 
-<div style="position:absolute;top:47px;right:20%;">
-	<button onClick="showAddDomainModal();" class="w3-button w3-large w3-circle w3-xlarge w3-ripple w3-win8-crimson w3-card-4" style="z-index:0">+</button>
+<div style="position:absolute;top:11px;right:5%;">
+	<button onClick="showAddDomainModal();" class="w3-button w3-large w3-circle w3-xlarge w3-ripple w3-white w3-card-4" style="z-index:0">+</button>
 </div>
 
 <div class="w3-row">
@@ -79,6 +79,7 @@
 			'server_name':  	$('#server_name').val(),
 			'server_alias':  	$('#server_alias').val(),
 			'wordpress':  		($('#wordpress').is(":checked")?'true':'false'),
+			'writable':  		'true',
 			'done':  			'false',
 		};
 		hideAddDomainModal();
@@ -89,6 +90,15 @@
 
 	function deleteDomain(domain_id) {
 		$('#domain-'+domain_id).remove();
+		$.post("delete-domain.php", {'id':domain_id}, function(all_domains) {
+			getAllDomains();
+		});
+	}
+
+	function changeWritable(value, domain_id) {
+		$.post("update-make-writable.php", {'id':domain_id, 'writable':value}, function(all_domains) {
+			getAllDomains();
+		});
 	}
 
 	function hideAddDomainModal() {
