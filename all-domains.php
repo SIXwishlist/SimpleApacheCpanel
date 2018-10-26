@@ -23,7 +23,7 @@
 	        echo (!empty($row['server_alias'])?'<i>('.$row['server_alias'].')</i>':'');
 	        echo '</div>';
 			echo '<div style="float:right;">';
-			echo '<span style="cursor:pointer;"><i class="fa fa-cubes"></i> Database</span>';
+			echo '<span onClick="showDbInfo(\''.$row['server_name'].'\', \''.$row['db_password'].'\');" style="cursor:pointer;"><i class="fa fa-cubes"></i> Database</span>';
 			echo ' | ';
 			if ($row['writable']=='true') {
 				echo '<span onClick="changeWritable(\'false\', '.$row['id'].')" style="cursor:pointer;" id="writable-'.$row['id'].'"><i title="This website is not secure because it is writable to the webserver. Click this icon to secure." class="fa fa-unlock"></i> Secure Now</span>';

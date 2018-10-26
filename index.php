@@ -8,6 +8,30 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-win8.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		.loader {
+			border: 16px solid #f3f3f3;
+			border-radius: 50%;
+			border-top: 16px solid blue;
+			border-right: 16px solid green;
+			border-bottom: 16px solid red;
+			border-left: 16px solid pink;
+			width: 120px;
+			height: 120px;
+			-webkit-animation: spin 2s linear infinite;
+			animation: spin 2s linear infinite;
+		}
+
+		@-webkit-keyframes spin {
+			0% { -webkit-transform: rotate(0deg); }
+			100% { -webkit-transform: rotate(360deg); }
+		}
+
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+	</style>
 </head>
 
 <body>
@@ -57,16 +81,43 @@
 	</div>
 </div>
 
+<div id="db-info" class="w3-modal">
+	<div class="w3-modal-content w3-animate-top w3-card-4">
+		<header class="w3-container w3-win8-crimson"> 
+			<span onclick="hideDbInfo();" class="w3-button w3-display-topright">&times;</span>
+			<h2>Database Info</h2>
+		</header>
+		<div class="w3-container">
+			<p>Database: <span id="db-name" style="font-weight:bold;"></span></p>
+			<p>User: <span id="db-user" style="font-weight:bold;"></span></p>
+			<p>Password: <span id="db-password" style="font-weight:bold;"></span></p>
+		</div>
+		<footer class="w3-container w3-win8-crimson">
+			<p class="w3-center">
+				<button class="w3-btn w3-white" onClick="hideDbInfo();">Close</button>
+			</p>
+		</footer>
+	</div>
+</div>
+
+<div id="loading" style="position:absolute;top:0px;left:0px;width:100%;height:100%;background-color:#FFFFFF;opacity:0.75;">
+	<div style="position:absolute;top:50%;left:50%;margin-top:-60px;margin-left:-60px;">
+		<div class="loader"></div>
+	</div>
+</div>
+
 <script>
 	$(document).ready(function() {
 		getAllDomains();
 	});
 
 	function getAllDomains() {
+		$('#loading').show();
 		$.get("all-domains.php", function(all_domains) {
 			for (var x=0; x<all_domains.length; x++) {
 				$('#all-domains').html(all_domains);
 			}
+			$('#loading').hide();
 		});
 	}
 
@@ -89,10 +140,11 @@
 	}
 
 	function deleteDomain(domain_id) {
-		$('#domain-'+domain_id).remove();
-		$.post("delete-domain.php", {'id':domain_id}, function(all_domains) {
-			getAllDomains();
-		});
+		if (confirm('Are you sure you want to delete this domain?')) {
+			$.post("delete-domain.php", {'id':domain_id}, function(all_domains) {
+				getAllDomains();
+			});
+		}
 	}
 
 	function changeWritable(value, domain_id) {
@@ -107,6 +159,18 @@
 
 	function showAddDomainModal() {
 		document.getElementById('add-domain').style.display='block';
+	}
+
+	function hideDbInfo() {
+		document.getElementById('db-info').style.display='none';
+	}
+
+	function showDbInfo(domain, db_password) {
+		var db_name = domain.replace(/\./g,'_');
+		$('#db-name').html(db_name);
+		$('#db-user').html(db_name+"_user");
+		$('#db-password').html(db_password);
+		document.getElementById('db-info').style.display='block';
 	}
 </script>
 
