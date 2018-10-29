@@ -1,17 +1,26 @@
 <?php
 
-	$_CORRECT_USERNAME = 'admin';
-	$_CORRECT_PASSWORD = '123456';
+	require_once('db.php');
 
-	$username = base64_encode($_POST['username']);
-	$password = base64_encode($_POST['password']);
+	// Create connection
+	$conn = new mysqli($servername, $username, $password, $dbname);
+	// Check connection
+	if ($conn->connect_error) {
+	    die("Connection failed: " . $conn->connect_error);
+	}
 
-	if ($username==base64_encode($_CORRECT_USERNAME) && $password==base64_encode($_CORRECT_PASSWORD)) {
+	$username = $_POST['username'];
+	$password = md5($_POST['password']);
+
+	$sql = "SELECT * FROM users WHERE username='".$username."' AND password='".$password."'";
+	$result = $conn->query($sql);
+
+	if ($result->num_rows > 0) {
 		session_start();
 		$_SESSION["logged_in"] = "TRUE";
 		header("Location: index.php");
 	} else {
-		echo '<script>alert("Incorrect username or password. Try again!");window.location="login.php";</script>';
+	    echo '<script>alert("Incorrect username or password. Try again!");window.location="login.php";</script>';
 	}
 
 ?>

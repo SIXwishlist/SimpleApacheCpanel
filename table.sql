@@ -1,3 +1,8 @@
+#create these database and user privileges
+#db:   simple_cpanel
+#user: simple_cpanel_user
+#pass: x1jjvkfhbrThhfdnQehdclPp35D5ndhdjj63QP5
+
 use simple_cpanel;
 
 CREATE TABLE domains (
@@ -11,6 +16,10 @@ CREATE TABLE domains (
 	PRIMARY KEY (ID)
 );
 
-#db:   simple_cpanel
-#user: simple_cpanel_user
-#pass: x1jjvkfhbrThhfdnQehdclPp35D5ndhdjj63QP5
+CREATE TABLE users (
+	id int NOT NULL AUTO_INCREMENT,
+	username varchar(64) NOT NULL,
+	password varchar(64),
+	PRIMARY KEY (ID)
+);
+#when adding users to users table, make sure the password is md5
