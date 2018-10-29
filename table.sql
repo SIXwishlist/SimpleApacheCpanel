@@ -1,6 +1,6 @@
 #create these database and user privileges
 #db:   simple_cpanel
-#user: simple_cpanel_user    #this user should have admin/root privileges
+#user: simple_cpanel_user    #this user should have admin/root privileges (should have global privileges)
 #pass: x1jjvkfhbrThhfdnQehdclPp35D5ndhdjj63QP5
 
 use simple_cpanel;

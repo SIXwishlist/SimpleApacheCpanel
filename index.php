@@ -38,7 +38,7 @@
 <body>
 
 <div class="w3-container w3-win8-crimson w3-center">
-	<h1>Websites of <?php echo $_SERVER['REMOTE_ADDR']; ?></h1>
+	<h1>Websites of <?php echo $_SERVER['SERVER_ADDR']; ?></h1>
 </div>
 
 <div style="position:absolute;top:11px;right:5%;">
