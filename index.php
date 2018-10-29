@@ -22,6 +22,9 @@
 			-webkit-animation: spin 2s linear infinite;
 			animation: spin 2s linear infinite;
 		}
+		.red-bg {
+			background-color: #ffccb3;
+		}
 
 		@-webkit-keyframes spin {
 			0% { -webkit-transform: rotate(0deg); }
@@ -148,6 +151,7 @@
 			$.post("delete-domain.php", {'id':domain_id}, function(all_domains) {
 				getAllDomains();
 			});
+			$('#domain-'+domain_id).addClass('red-bg');
 		}
 	}
 
