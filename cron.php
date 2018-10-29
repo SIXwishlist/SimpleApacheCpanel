@@ -20,7 +20,7 @@
 			createVirtualHost($row);
 			updateDomainRecord($row, $db_password, $conn);
 		}
-		shell_exec("service apache2 restart");
+		shell_exec("/etc/init.d/apache2 restart");
 		shell_exec("rm /var/www/html/latest.tar.gz"); //remove the wordpress
 	}
 
@@ -43,7 +43,7 @@
 			echo "\nFolder /var/www/html/".$row['server_name']." has been deleted\n";
 			$conn->query("DELETE FROM domains WHERE id=".$row['id']); //delete record for this domain
 		}
-		shell_exec("service apache2 restart");
+		shell_exec("/etc/init.d/apache2 apache2 restart");
 	}
 
 	//update all not-writable websites
