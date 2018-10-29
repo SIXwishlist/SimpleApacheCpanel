@@ -94,6 +94,7 @@
 			<p>Database: <span id="db-name" style="font-weight:bold;"></span></p>
 			<p>User: <span id="db-user" style="font-weight:bold;"></span></p>
 			<p>Password: <span id="db-password" style="font-weight:bold;"></span></p>
+			<p>PHPMyAdmin: <span id="phpmyadmin-link" style="font-weight:bold;"></span></p>
 		</div>
 		<footer class="w3-container w3-win8-crimson">
 			<p class="w3-center">
@@ -173,6 +174,7 @@
 		$('#db-name').html(db_name);
 		$('#db-user').html(db_name+"_user");
 		$('#db-password').html(db_password);
+		$('#phpmyadmin-link').html('http://'+domain+'/phpmyadmin');
 		document.getElementById('db-info').style.display='block';
 	}
 
