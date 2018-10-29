@@ -21,7 +21,7 @@
 			updateDomainRecord($row, $db_password, $conn);
 		}
 		shell_exec("service apache2 restart");
-		shell_exec("rm latest.tar.gz"); //remove the wordpress
+		shell_exec("rm /var/www/html/latest.tar.gz"); //remove the wordpress
 	}
 
 	//get all deleted websites
@@ -58,7 +58,6 @@
 	function createFolder($domain) {
 		if ($domain['wordpress']=='true') {
 			shell_exec("tar xfz /var/www/html/latest.tar.gz");
-			echo "Done extracting wordpress";
 			shell_exec("cp -R wordpress /var/www/html/".$domain['server_name']);
 			shell_exec("chown -R www-data:www-data /var/www/html/".$domain['server_name']);
 			echo "\nCreated a folder for wordpress";
@@ -79,6 +78,7 @@
 			echo "\nError creating database: " . $conn->error;
 		}
 		$sql = "CREATE USER '".$db_user."'@'localhost' IDENTIFIED BY '".$db_password."';";
+		echo $sql;
 		if ($conn->query($sql) === TRUE) {
 			echo "\nUser ".$db_user." created successfully";
 		} else {
