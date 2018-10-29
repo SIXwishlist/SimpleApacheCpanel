@@ -57,7 +57,7 @@
 
 	function createFolder($domain) {
 		if ($domain['wordpress']=='true') {
-			shell_exec("tar xfz latest.tar.gz");
+			shell_exec("tar xfz /var/www/html/latest.tar.gz");
 			echo "Done extracting wordpress";
 			shell_exec("cp -R wordpress /var/www/html/".$domain['server_name']);
 			shell_exec("chown -R www-data:www-data /var/www/html/".$domain['server_name']);
