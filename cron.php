@@ -36,7 +36,7 @@
 			echo "\nDatabase ".$db_name." has been deleted";
 			$conn->query("DROP USER '" . $db_user . "'@'localhost'"); //delete user
 			echo "\nUser ".$db_user." has been deleted";
-			shell_exec("a2dissite ".$row['server_name'].".conf");
+			shell_exec("/usr/sbin/a2dissite ".$row['server_name'].".conf");
 			shell_exec("rm ".$vhost_file);
 			echo "\nDomain ".$row['server_name']." has been removed from the web server";
 			shell_exec("rm -R /var/www/html/".$row['server_name']);
@@ -106,7 +106,7 @@
 		shell_exec("echo '\n\tErrorLog \${APACHE_LOG_DIR}/".$domain['server_name']."-error.log' >> ".$vhost_file);
 		shell_exec("echo '\tCustomLog \${APACHE_LOG_DIR}/".$domain['server_name']."-access.log combined' >> ".$vhost_file);
 		shell_exec("echo '</VirtualHost>' >> ".$vhost_file);
-		shell_exec("a2ensite ".$domain['server_name'].".conf");
+		shell_exec("/usr/sbin/a2ensite ".$domain['server_name'].".conf");
 	}
 
 	function updateDomainRecord($domain, $db_password, $conn) {
