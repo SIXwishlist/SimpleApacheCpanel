@@ -101,7 +101,10 @@
 		if (!empty($domain['server_alias'])) {
 			shell_exec("echo '\tServerAlias ".$domain['server_alias']."' >> ".$vhost_file);
 		}
-		shell_exec("echo '\tServerAdmin love.gerald@yahoo.com' >> ".$vhost_file);
+		shell_exec("echo '\tServerAdmin love.gerald@yahoo.com\n' >> ".$vhost_file);
+		shell_exec("echo '\t<Directory /var/www/html".$domain['server_name'].">' >> ".$vhost_file);
+		shell_exec("echo '\t\tAllowOverride All' >> ".$vhost_file);
+		shell_exec("echo '\t</Directory>\n' >> ".$vhost_file);
 		shell_exec("echo '\tDocumentRoot /var/www/html/".$domain['server_name']."' >> ".$vhost_file);
 		shell_exec("echo '\n\tErrorLog \${APACHE_LOG_DIR}/".$domain['server_name']."-error.log' >> ".$vhost_file);
 		shell_exec("echo '\tCustomLog \${APACHE_LOG_DIR}/".$domain['server_name']."-access.log combined' >> ".$vhost_file);
