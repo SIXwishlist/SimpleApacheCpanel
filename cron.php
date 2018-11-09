@@ -62,6 +62,7 @@
 		shell_exec("sudo useradd -p $(openssl passwd -1 ".$password.") ".$domain['server_name']);
 		shell_exec("chown -R ".$domain['server_name'].":".$domain['server_name']." /var/www/html/".$domain['server_name']."/www");
 		shell_exec("chown -R www-data:www-data /var/www/html/".$domain['server_name']."/www/wp-content");
+		shell_exec("echo ".$domain['server_name']." | sudo tee -a /etc/vsftpd.userlist");
 		if ($domain['wordpress']=='true') {
 			//shell_exec("cp /var/www/html/".$domain['server_name']."/www/wp-config-sample.php /var/www/html/".$domain['server_name']."/www/wp-config.php");
 			//shell_exec("chown -R www-data:www-data /var/www/html/".$domain['server_name']."/www/wp-config.php");
