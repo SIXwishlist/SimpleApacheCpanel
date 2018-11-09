@@ -63,8 +63,8 @@
 		shell_exec("chown -R ".$domain['server_name'].":".$domain['server_name']." /var/www/html/".$domain['server_name']."/www");
 		shell_exec("chown -R www-data:www-data /var/www/html/".$domain['server_name']."/www/wp-content");
 		if ($domain['wordpress']=='true') {
-			shell_exec("cp /var/www/html/".$domain['server_name']."/www/wp-config-sample.php /var/www/html/".$domain['server_name']."/www/wp-config.php");
-			shell_exec("chown -R www-data:www-data /var/www/html/".$domain['server_name']."/www/wp-config.php");
+			//shell_exec("cp /var/www/html/".$domain['server_name']."/www/wp-config-sample.php /var/www/html/".$domain['server_name']."/www/wp-config.php");
+			//shell_exec("chown -R www-data:www-data /var/www/html/".$domain['server_name']."/www/wp-config.php");
 		}
 	}
 
