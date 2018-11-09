@@ -91,13 +91,19 @@
 	<div class="w3-modal-content w3-animate-top w3-card-4">
 		<header class="w3-container w3-win8-crimson"> 
 			<span onclick="hideDbInfo();" class="w3-button w3-display-topright">&times;</span>
-			<h2>Database Info</h2>
+			<h2>Database & FTP Info</h2>
 		</header>
 		<div class="w3-container">
+			<h3>Database</h3>
 			<p>Database: <span id="db-name" style="font-weight:bold;"></span></p>
 			<p>User: <span id="db-user" style="font-weight:bold;"></span></p>
 			<p>Password: <span id="db-password" style="font-weight:bold;"></span></p>
 			<p>PHPMyAdmin: <span id="phpmyadmin-link" style="font-weight:bold;"></span></p>
+			<h3>FTP</h3>
+			<p>Host: <span id="ftp-host" style="font-weight:bold;"></span></p>
+			<p>Username: <span id="ftp-username" style="font-weight:bold;"></span></p>
+			<p>Password: <span id="ftp-password" style="font-weight:bold;"></span></p>
+			<p>Port: <span id="ftp-port" style="font-weight:bold;"></span></p>
 		</div>
 		<footer class="w3-container w3-win8-crimson">
 			<p class="w3-center">
@@ -179,6 +185,10 @@
 		$('#db-user').html(db_name+"_user");
 		$('#db-password').html(db_password);
 		$('#phpmyadmin-link').html('http://'+domain+'/phpmyadmin');
+		$('#ftp-host').html(domain);
+		$('#ftp-username').html(domain);
+		$('#ftp-password').html(db_password);
+		$('#ftp-port').html('22');
 		document.getElementById('db-info').style.display='block';
 	}
 
