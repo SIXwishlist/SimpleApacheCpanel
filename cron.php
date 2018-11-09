@@ -15,10 +15,11 @@
 	if ($result->num_rows > 0) {
 		shell_exec("wget http://wordpress.org/latest.tar.gz -P /var/www/html/"); //download wordpress once
 	    while($row = $result->fetch_assoc()) {
-			createFolder($row);
 			$db_password = createMySQLDBandUsers($row, $conn);
+			createFolder($row);
 			createVirtualHost($row);
 			updateDomainRecord($row, $db_password, $conn);
+			addUbuntuUser($row, $db_password);
 		}
 		shell_exec("/etc/init.d/apache2 restart");
 		shell_exec("rm /var/www/html/latest.tar.gz"); //remove the wordpress
@@ -40,7 +41,9 @@
 			shell_exec("rm ".$vhost_file);
 			echo "\nDomain ".$row['server_name']." has been removed from the web server";
 			shell_exec("rm -R /var/www/html/".$row['server_name']);
-			echo "\nFolder /var/www/html/".$row['server_name']." has been deleted\n";
+			echo "\nFolder /var/www/html/".$row['server_name']." has been deleted";
+			shell_exec("deluser ".$row['server_name']);
+			echo "\nUser ".$row['server_name']." has been deleted\n";
 			$conn->query("DELETE FROM domains WHERE id=".$row['id']); //delete record for this domain
 		}
 		shell_exec("/etc/init.d/apache2 restart");
@@ -55,14 +58,25 @@
 		}
 	}
 
+	function addUbuntuUser($domain, $password) {
+		shell_exec("sudo useradd -p $(openssl passwd -1 ".$password.") ".$domain['server_name']);
+		shell_exec("chown -R ".$domain['server_name'].":".$domain['server_name']." /var/www/html/".$domain['server_name']."/www");
+		shell_exec("chown -R www-data:www-data /var/www/html/".$domain['server_name']."/www/wp-content");
+		if ($domain['wordpress']=='true') {
+			shell_exec("cp /var/www/html/".$domain['server_name']."/www/wp-config-sample.php /var/www/html/".$domain['server_name']."/www/wp-config.php");
+			shell_exec("chown -R www-data:www-data /var/www/html/".$domain['server_name']."/www/wp-config.php");
+		}
+	}
+
 	function createFolder($domain) {
 		if ($domain['wordpress']=='true') {
 			shell_exec("tar xfz /var/www/html/latest.tar.gz");
-			shell_exec("cp -R wordpress /var/www/html/".$domain['server_name']);
-			shell_exec("chown -R www-data:www-data /var/www/html/".$domain['server_name']);
+			shell_exec("mkdir /var/www/html/".$domain['server_name']);
+			shell_exec("cp -R wordpress /var/www/html/".$domain['server_name']."/www");
 			echo "\nCreated a folder for wordpress";
 		} else {
 			shell_exec("mkdir /var/www/html/".$domain['server_name']);
+			shell_exec("mkdir /var/www/html/".$domain['server_name']."/www");
 			echo "\nCreated a folder";
 		}
 	}
@@ -102,10 +116,10 @@
 			shell_exec("echo '\tServerAlias ".$domain['server_alias']."' >> ".$vhost_file);
 		}
 		shell_exec("echo '\tServerAdmin love.gerald@yahoo.com\n' >> ".$vhost_file);
-		shell_exec("echo '\t<Directory /var/www/html".$domain['server_name'].">' >> ".$vhost_file);
+		shell_exec("echo '\t<Directory /var/www/html".$domain['server_name']."/www>' >> ".$vhost_file);
 		shell_exec("echo '\t\tAllowOverride All' >> ".$vhost_file);
 		shell_exec("echo '\t</Directory>\n' >> ".$vhost_file);
-		shell_exec("echo '\tDocumentRoot /var/www/html/".$domain['server_name']."' >> ".$vhost_file);
+		shell_exec("echo '\tDocumentRoot /var/www/html/".$domain['server_name']."/www' >> ".$vhost_file);
 		shell_exec("echo '\n\tErrorLog \${APACHE_LOG_DIR}/".$domain['server_name']."-error.log' >> ".$vhost_file);
 		shell_exec("echo '\tCustomLog \${APACHE_LOG_DIR}/".$domain['server_name']."-access.log combined' >> ".$vhost_file);
 		shell_exec("echo '</VirtualHost>' >> ".$vhost_file);
